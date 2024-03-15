@@ -1,31 +1,46 @@
-[gd_scene format=3 uid="uid://c27akp56ru7i7"]
+[gd_scene load_steps=3 format=3 uid="uid://c27akp56ru7i7"]
+
+[ext_resource type="Script" path="res://menu.gd" id="1_fm3wo"]
+[ext_resource type="PackedScene" uid="uid://bt4nhrgn8jdw6" path="res://clouds.tscn" id="2_dt1p3"]
 
 [node name="Menu" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 1.0
-offset_top = -4.0
-offset_right = 1.0
-offset_bottom = -4.0
+offset_left = 139.0
+offset_top = 209.0
+offset_right = 107.0
+offset_bottom = 124.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_fm3wo")
 
-[node name="Start" type="Button" parent="."]
+[node name="Play" type="Button" parent="."]
 layout_mode = 0
-offset_left = 444.0
-offset_top = 76.0
-offset_right = 825.0
-offset_bottom = 233.0
-action_mode = 0
-text = "Start"
+offset_left = 307.0
+offset_top = 135.0
+offset_right = 502.0
+offset_bottom = 231.0
+text = "Play"
+
+[node name="Load" type="Button" parent="."]
+layout_mode = 0
+offset_left = 80.0
+offset_top = 235.0
+offset_right = 275.0
+offset_bottom = 331.0
+text = "Load"
 
 [node name="Quit" type="Button" parent="."]
 layout_mode = 0
-offset_left = 446.0
-offset_top = 339.0
-offset_right = 827.0
-offset_bottom = 496.0
-action_mode = 0
+offset_left = 538.0
+offset_top = 249.0
+offset_right = 733.0
+offset_bottom = 327.0
 text = "Quit"
+
+[node name="TitleBG" parent="." instance=ExtResource("2_dt1p3")]
+
+[connection signal="pressed" from="Play" to="." method="_on_play_pressed"]
+[connection signal="pressed" from="Quit" to="." method="_on_quit_pressed"]
