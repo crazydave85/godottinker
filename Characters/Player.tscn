@@ -271,7 +271,7 @@ position = Vector2(0.62504, -2.625)
 scale = Vector2(1.97657, 2.27344)
 sprite_frames = SubResource("SpriteFrames_rqhyj")
 animation = &"Idle"
-frame_progress = 0.854743
+frame_progress = 0.633238
 speed_scale = 0.5
 
 [node name="Camera2D" type="Camera2D" parent="."]

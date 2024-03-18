@@ -18,6 +18,7 @@ func _on_key_body_entered(body: PhysicsBody2D):
 		print(\"Got the Key\")
 		emit_signal(\"Key Collected\")
 		$Key.queue_free()
+
 		
 
 func _process(delta):
@@ -26,47 +27,28 @@ func _process(delta):
 			if Input.is_action_just_pressed(\"ui_accept\"):
 				print(\"door unlocked\")
 				emit_signal(\"Door Unlocked\")
-			
-
-
-func _on_door_area_body_entered(body: PhysicsBody2D):
-	in_door_zone = true
-	print(in_door_zone)
-	if Game.Key == false:
-		print(\"Door is Locked\")
-		emit_signal(\"Door is Locked find the key\")
-	if Game.Key == true:
-		print(\"Door is Unlocked\")
-		emit_signal(\"Door is unlocked\")
 		
-		
-
-
-func _on_door_area_body_exited(body: PhysicsBody2D):
-	in_door_zone = false
-	print(in_door_zone)
-
-
-
 "
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bpkma"]
-radius = 13.9804
-height = 42.0
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_43hgr"]
+radius = 13.1435
+height = 36.2185
 
 [node name="Key" type="StaticBody2D"]
 script = SubResource("GDScript_uui4l")
 
 [node name="Key" type="Sprite2D" parent="."]
-position = Vector2(342, 84)
+position = Vector2(60, 14)
 scale = Vector2(0.0254167, 0.0270833)
 texture = ExtResource("1_unyws")
 
-[node name="key" type="Area2D" parent="."]
+[node name="key" type="Area2D" parent="Key"]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="key"]
-position = Vector2(343, 81)
-rotation = 1.58825
-shape = SubResource("CapsuleShape2D_bpkma")
+[node name="key" type="CollisionShape2D" parent="Key/key"]
+position = Vector2(39.3455, -36.9226)
+rotation = 1.57603
+scale = Vector2(39.3443, 36.9231)
+shape = SubResource("CapsuleShape2D_43hgr")
 
-[connection signal="body_entered" from="key" to="." method="_on_key_body_entered"]
+[connection signal="body_entered" from="Key/key" to="." method="_on_key_body_entered"]
+[connection signal="body_exited" from="Key/key" to="." method="_on_key_body_exited"]

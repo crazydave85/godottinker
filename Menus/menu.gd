@@ -14,6 +14,7 @@ func _ready():
 	Utils.saveGame()
 	print(Game.PlayerDickishness)
 	print(Game.PlayerCash)
+	print(Game.Key)
 
 func _on_load_pressed():
 	Utils.loadGame()
