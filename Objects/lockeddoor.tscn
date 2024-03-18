@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://4yq4wohx5xld"]
+
+[ext_resource type="Texture2D" uid="uid://4tmnr2qif65v" path="res://Texture/ClosedDoor.png" id="2_0kdoe"]
+[ext_resource type="Script" path="res://Objects/lockedDoor.gd" id="2_j27ri"]
+
+[sub_resource type="GDScript" id="GDScript_x8llf"]
+script/source = "extends StaticBody2D
+
+signal break_door_down
+
+func _on_locked_door_door_is_unlocked():
+	print(\"I AM HERE\")
+	break_door_down.emit()
+	
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q3dxx"]
+size = Vector2(53.125, 37.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_meois"]
+size = Vector2(39, 24)
+
+[sub_resource type="GDScript" id="GDScript_buw07"]
+script/source = "extends CollisionShape2D
+
+func _on_closed_door_break_door_down():
+	print(\"will you fucking work\")
+	set_deferred(\"disabled\",true)
+"
+
+[node name="closedDoor" type="StaticBody2D"]
+script = SubResource("GDScript_x8llf")
+
+[node name="lockedDoor" type="Area2D" parent="."]
+script = ExtResource("2_j27ri")
+
+[node name="ClosedDoor" type="Sprite2D" parent="lockedDoor"]
+position = Vector2(8, 39)
+texture = ExtResource("2_0kdoe")
+
+[node name="UnlockDoor" type="CollisionShape2D" parent="lockedDoor"]
+position = Vector2(10, 59)
+shape = SubResource("RectangleShape2D_q3dxx")
+
+[node name="LockedDoor" type="CollisionShape2D" parent="."]
+position = Vector2(9, 28)
+shape = SubResource("RectangleShape2D_meois")
+script = SubResource("GDScript_buw07")
+
+[connection signal="break_door_down" from="." to="LockedDoor" method="_on_closed_door_break_door_down"]
+[connection signal="Door_is_unlocked" from="lockedDoor" to="." method="_on_locked_door_door_is_unlocked"]
+[connection signal="body_entered" from="lockedDoor" to="lockedDoor" method="_on_body_entered"]
+[connection signal="body_exited" from="lockedDoor" to="lockedDoor" method="_on_body_exited"]

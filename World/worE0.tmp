@@ -2185,16 +2185,15 @@ var area_active = false
 func _physics_process(delta):
 	if area_active ==true and Input.is_action_just_pressed(\"Piss\"):
 		print(\"Piss on the Tree\")
-		Game.PlayerDickishness = Game.PlayerDickishness - 5
-		print(Game.PlayerDickishness)
 
 func _on_collisions_body_entered(body):
 	if \"Player\" in body.name:
 		area_active = true
 
 
-func _on_collisions_body_exited(body):
-	area_active = false
+func _on_collisions_input_event(viewport, event, shape_idx):
+	pass
+	
 "
 
 [node name="World" type="Node2D"]
@@ -2248,6 +2247,5 @@ position = Vector2(84, 283)
 position = Vector2(41, -64)
 
 [connection signal="body_entered" from="TileMap/Collisions" to="TileMap/Collisions/Tree" method="_on_collisions_body_entered"]
-[connection signal="body_exited" from="TileMap/Collisions" to="TileMap/Collisions/Tree" method="_on_collisions_body_exited"]
 [connection signal="input_event" from="TileMap/Collisions" to="TileMap/Collisions/Tree" method="_on_collisions_input_event"]
 [connection signal="ready" from="TileMap/Collisions" to="TileMap/Collisions/Tree" method="_on_collisions_ready"]

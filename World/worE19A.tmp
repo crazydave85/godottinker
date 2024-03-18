@@ -2174,27 +2174,17 @@ sources/6 = SubResource("TileSetAtlasSource_1yy81")
 sources/7 = SubResource("TileSetAtlasSource_ma56f")
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_vww7j"]
-radius = 38.0
-height = 78.0
+radius = 26.0
+height = 56.0
 
 [sub_resource type="GDScript" id="GDScript_agh1f"]
 script/source = "extends CollisionShape2D
 
-var area_active = false
 
-func _physics_process(delta):
-	if area_active ==true and Input.is_action_just_pressed(\"Piss\"):
-		print(\"Piss on the Tree\")
-		Game.PlayerDickishness = Game.PlayerDickishness - 5
-		print(Game.PlayerDickishness)
 
 func _on_collisions_body_entered(body):
-	if \"Player\" in body.name:
-		area_active = true
-
-
-func _on_collisions_body_exited(body):
-	area_active = false
+	if Input.is_action_just_pressed(\"ui_accept\"):
+		print(\"Piss on the Tree\")
 "
 
 [node name="World" type="Node2D"]
@@ -2234,20 +2224,17 @@ layer_2/tile_data = PackedInt32Array()
 [node name="Player" parent="TileMap" instance=ExtResource("2_1qfvf")]
 position = Vector2(251, 141)
 
-[node name="Collisions" type="Area2D" parent="TileMap"]
-
-[node name="Tree" type="CollisionShape2D" parent="TileMap/Collisions"]
-position = Vector2(335, 234)
-shape = SubResource("CapsuleShape2D_vww7j")
-script = SubResource("GDScript_agh1f")
-
 [node name="Key" parent="." instance=ExtResource("9_33th4")]
 position = Vector2(84, 283)
 
 [node name="closedDoor" parent="." instance=ExtResource("10_adn1s")]
 position = Vector2(41, -64)
 
-[connection signal="body_entered" from="TileMap/Collisions" to="TileMap/Collisions/Tree" method="_on_collisions_body_entered"]
-[connection signal="body_exited" from="TileMap/Collisions" to="TileMap/Collisions/Tree" method="_on_collisions_body_exited"]
-[connection signal="input_event" from="TileMap/Collisions" to="TileMap/Collisions/Tree" method="_on_collisions_input_event"]
-[connection signal="ready" from="TileMap/Collisions" to="TileMap/Collisions/Tree" method="_on_collisions_ready"]
+[node name="Collisions" type="Area2D" parent="."]
+
+[node name="Tree" type="CollisionShape2D" parent="Collisions"]
+position = Vector2(335, 234)
+shape = SubResource("CapsuleShape2D_vww7j")
+script = SubResource("GDScript_agh1f")
+
+[connection signal="body_entered" from="Collisions" to="Collisions/Tree" method="_on_collisions_body_entered"]
