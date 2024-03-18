@@ -1,0 +1,72 @@
+[gd_scene load_steps=4 format=3 uid="uid://bxljee3lbjef0"]
+
+[ext_resource type="Texture2D" uid="uid://dcpoj5ukxeu1v" path="res://Texture/key.png" id="1_unyws"]
+
+[sub_resource type="GDScript" id="GDScript_uui4l"]
+resource_name = "key"
+script/source = "extends StaticBody2D
+
+signal door_opened
+
+
+var in_door_zone = false
+
+
+func _on_key_body_entered(body: PhysicsBody2D):
+	if Game.Key == false:
+		Game.Key= true
+		print(\"Got the Key\")
+		emit_signal(\"Key Collected\")
+		$Key.queue_free()
+		
+
+func _process(delta):
+	if Game.Key == true:
+		if in_door_zone == true:
+			if Input.is_action_just_pressed(\"ui_accept\"):
+				print(\"door unlocked\")
+				emit_signal(\"Door Unlocked\")
+			
+
+
+func _on_door_area_body_entered(body: PhysicsBody2D):
+	in_door_zone = true
+	print(in_door_zone)
+	if Game.Key == false:
+		print(\"Door is Locked\")
+		emit_signal(\"Door is Locked find the key\")
+	if Game.Key == true:
+		print(\"Door is Unlocked\")
+		emit_signal(\"Door is unlocked\")
+		
+		
+
+
+func _on_door_area_body_exited(body: PhysicsBody2D):
+	in_door_zone = false
+	print(in_door_zone)
+
+
+
+"
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bpkma"]
+radius = 13.9804
+height = 42.0
+
+[node name="Key" type="StaticBody2D"]
+script = SubResource("GDScript_uui4l")
+
+[node name="Key" type="Sprite2D" parent="."]
+position = Vector2(342, 84)
+scale = Vector2(0.0254167, 0.0270833)
+texture = ExtResource("1_unyws")
+
+[node name="key" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="key"]
+position = Vector2(343, 81)
+rotation = 1.58825
+shape = SubResource("CapsuleShape2D_bpkma")
+
+[connection signal="body_entered" from="key" to="." method="_on_key_body_entered"]

@@ -1,0 +1,78 @@
+[gd_scene load_steps=10 format=3 uid="uid://d1u13gfgel7e"]
+
+[ext_resource type="Texture2D" uid="uid://bw7jpuxlcsdv7" path="res://Texture/TX Props.png" id="1_ajvm0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3aouq"]
+atlas = ExtResource("1_ajvm0")
+region = Rect2(90, 0, 45, 62)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ghlbu"]
+atlas = ExtResource("1_ajvm0")
+region = Rect2(90, 62, 45, 62)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wgcmi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3aouq")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ghlbu")
+}],
+"loop": true,
+"name": &"open",
+"speed": 5.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_ye6ee"]
+script/source = "extends AnimatedSprite2D
+
+
+# Called when the node enters the scene tree for the first time.
+export(PackedScene) var object_scene: PackedSecne=null
+
+var is_player_inside bool = false
+var is_opened bool = false
+
+onready var animationplayer: AnimationPlayer = get_note(\"AnimationPlayer\")
+
+onready var tweet
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1n2b1"]
+size = Vector2(31.25, 31)
+
+[sub_resource type="Animation" id="Animation_k1nv7"]
+resource_name = "idle"
+
+[sub_resource type="Animation" id="Animation_68wty"]
+resource_name = "open_chest"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ibrvu"]
+_data = {
+"idle": SubResource("Animation_k1nv7"),
+"open_chest": SubResource("Animation_68wty")
+}
+
+[node name="Chest" type="AnimatedSprite2D"]
+position = Vector2(0.25, 0)
+scale = Vector2(1.01111, 1)
+sprite_frames = SubResource("SpriteFrames_wgcmi")
+animation = &"open"
+script = SubResource("GDScript_ye6ee")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 15.5)
+shape = SubResource("RectangleShape2D_1n2b1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ibrvu")
+}

@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://ccw0t4w2fr2gc"]
+
+[ext_resource type="Script" path="res://World/world.gd" id="1_0ntac"]
+[ext_resource type="PackedScene" uid="uid://cwufv0wybryi3" path="res://Characters/Player.tscn" id="2_1qfvf"]
+[ext_resource type="Texture2D" uid="uid://dg4l0xtohi6aw" path="res://Texture/TX Tileset Grass.png" id="2_w6xii"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_sno7q"]
+normal = Vector2(0.00389099, -0.999992)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xws5a"]
+size = Vector2(42.88, 20)
+
+[sub_resource type="GDScript" id="GDScript_cu0jp"]
+script/source = "extends Label
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	text = \"Cash: \"+ str(get_node(Game.PlayerCash))
+"
+
+[node name="World" type="Node2D"]
+position = Vector2(6, 0)
+script = ExtResource("1_0ntac")
+
+[node name="Player" parent="." instance=ExtResource("2_1qfvf")]
+position = Vector2(251, 141)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(137, 86)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(968, 592)
+scale = Vector2(25, 25)
+shape = SubResource("WorldBoundaryShape2D_sno7q")
+debug_color = Color(0.129412, 0.603922, 0.643137, 0.419608)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(417, 339)
+scale = Vector2(25, 25)
+shape = SubResource("RectangleShape2D_xws5a")
+debug_color = Color(0.129412, 0.603922, 0.643137, 0.419608)
+
+[node name="TxTilesetGrass" type="Sprite2D" parent="."]
+position = Vector2(149, 311)
+texture = ExtResource("2_w6xii")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="Cash" type="Label" parent="UI"]
+offset_left = 5.0
+offset_top = -61.0
+offset_right = 68.0
+offset_bottom = -32.0
+text = "Cash"
+script = SubResource("GDScript_cu0jp")
