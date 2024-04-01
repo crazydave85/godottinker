@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://bl0jmsn54oj0r"]
+[gd_scene load_steps=18 format=3 uid="uid://bl0jmsn54oj0r"]
 
 [ext_resource type="Script" path="res://Characters/guard.gd" id="1_7fyoi"]
 [ext_resource type="Texture2D" uid="uid://cobsfj2g45gj" path="res://Texture/RACCOONSPRITESHEET.png" id="1_l83jw"]
@@ -9,9 +9,6 @@ _data = {
 "points": PackedVector2Array(72.6237, 0, -72.6237, 0, 0, 0, 0, 0, 0, 0, -54.0606, -1, 0, 0, 0, 0, -90.1011, -1, 0, 0, 0, 0, -61.0685, -2, 0, 0, 0, 0, -31.0348, 1, 0, 0, 0, 0, 0, 0)
 }
 point_count = 6
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7cno2"]
-height = 24.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b2231"]
 atlas = ExtResource("1_l83jw")
@@ -60,34 +57,60 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
-"duration": 1.0,
+"duration": 0.1,
 "texture": SubResource("AtlasTexture_bo462")
 }, {
-"duration": 1.0,
+"duration": 0.1,
 "texture": SubResource("AtlasTexture_4k5lj")
 }, {
-"duration": 1.0,
+"duration": 0.1,
 "texture": SubResource("AtlasTexture_sebv1")
 }, {
-"duration": 1.0,
+"duration": 0.1,
 "texture": SubResource("AtlasTexture_3eiv0")
 }, {
-"duration": 1.0,
+"duration": 0.1,
 "texture": SubResource("AtlasTexture_vepsb")
 }, {
-"duration": 1.0,
+"duration": 0.1,
 "texture": SubResource("AtlasTexture_68a7s")
 }, {
-"duration": 1.0,
+"duration": 0.1,
 "texture": SubResource("AtlasTexture_l38go")
 }, {
-"duration": 1.0,
+"duration": 0.1,
 "texture": SubResource("AtlasTexture_sfj0f")
 }],
 "loop": true,
 "name": &"walk",
-"speed": 5.0
+"speed": 6.0
 }]
+
+[sub_resource type="Animation" id="Animation_y8rf3"]
+resource_name = "new_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Guard/AnimatedSprite2D:sprite_frames")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(),
+"transitions": PackedFloat32Array(),
+"update": 1,
+"values": []
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_aqvln"]
+_data = {
+"new_animation": SubResource("Animation_y8rf3")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_7cno2"]
+height = 39.9894
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7oys4"]
+radius = 66.0002
 
 [node name="Node2D" type="Node2D"]
 position = Vector2(49, 23)
@@ -100,33 +123,50 @@ scale = Vector2(0.998878, 1)
 curve = SubResource("Curve2D_2slrp")
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Path2D"]
-position = Vector2(-69.0564, -1.03993)
+position = Vector2(-56.5701, -1)
 rotation = 3.14159
-progress = 92.35
+progress = 77.3029
 h_offset = 20.0
 rotates = false
 
 [node name="Guard" type="CharacterBody2D" parent="Path2D/PathFollow2D"]
-position = Vector2(-271.282, -116)
+position = Vector2(-73.5892, -3.00018)
 rotation = 3.14159
 scale = Vector2(1.00112, 1)
 motion_mode = 1
 
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Path2D/PathFollow2D/Guard"]
+position = Vector2(-17, -11.0001)
+rotation = -0.0185333
+scale = Vector2(2, 2.257)
+skew = 4.14848e-05
+sprite_frames = SubResource("SpriteFrames_dfmwp")
+animation = &"walk"
+frame_progress = 0.876259
+speed_scale = 0.2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Path2D/PathFollow2D/Guard/AnimatedSprite2D"]
+root_node = NodePath("../../..")
+libraries = {
+"": SubResource("AnimationLibrary_aqvln")
+}
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Guard"]
-position = Vector2(-248, -119)
+position = Vector2(-17, -6.00007)
 rotation = -0.0185333
 scale = Vector2(0.886709, 1.00102)
 skew = 4.14848e-05
 shape = SubResource("CapsuleShape2D_7cno2")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Path2D/PathFollow2D/Guard"]
-position = Vector2(-247.955, -120)
-rotation = -0.0185333
-scale = Vector2(0.886708, 1.00102)
-skew = 4.14848e-05
-sprite_frames = SubResource("SpriteFrames_dfmwp")
-animation = &"walk"
-frame_progress = 0.628928
+[node name="interaction" type="Area2D" parent="Path2D/PathFollow2D/Guard"]
+position = Vector2(7.62939e-06, 2)
+disable_mode = 2
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Path2D/PathFollow2D/Guard/AnimatedSprite2D"]
-root_node = NodePath("../../..")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Path2D/PathFollow2D/Guard/interaction"]
+process_priority = 1
+position = Vector2(-15, -10.0001)
+shape = SubResource("CircleShape2D_7oys4")
+debug_color = Color(0.54902, 0.529412, 0.533333, 0.419608)
+
+[connection signal="area_entered" from="Path2D/PathFollow2D/Guard/interaction" to="." method="_on_interaction_area_entered"]
+[connection signal="area_exited" from="Path2D/PathFollow2D/Guard/interaction" to="." method="_on_interaction_area_exited"]
