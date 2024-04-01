@@ -24,9 +24,9 @@ func _on_key_body_entered(body: PhysicsBody2D):
 func _process(delta):
 	if Game.Key == true:
 		if in_door_zone == true:
-			if Input.is_action_just_pressed(\"ui_accept\"):
+			if Input.is_action_pressed(\"ui_accept\"):
 				print(\"door unlocked\")
-				emit_signal(\"Door Unlocked\")
+				emit_signal(\"DoorUnlocked\")
 		
 "
 
